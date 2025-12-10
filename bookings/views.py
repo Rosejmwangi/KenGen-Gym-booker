@@ -70,13 +70,13 @@ def sessions_by_date(request):
 			print(f"Error in sessions_by_date: {e}")
 	return JsonResponse({'sessions': sessions})
 
-from django.shortcuts import render
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 
 
-@login_required
+@login_required(login_url='/login/')
 def homepage(request):
 	# main application interface - only accessible when logged in
 	return render(request, 'bookings/homepage.html')
