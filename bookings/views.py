@@ -98,7 +98,33 @@ def signup(request):
 
 def members_home(request):
 	"""Public landing page for members offering Login and Signup links."""
-	return render(request, 'bookings/members_home.html')
+	is_superuser = request.user.is_superuser if request.user.is_authenticated else False
+	return render(request, 'bookings/members_home.html', {'is_superuser': is_superuser})
+
+
+def admin_dashboard(request):
+	"""Admin dashboard showing all reservations - superusers only."""
+	from django.contrib.auth import authenticate
+	
+	access_denied = False
+	
+	if request.method == 'POST':
+		username = request.POST.get('username')
+		password = request.POST.get('password')
+		user = authenticate(request, username=username, password=password)
+		
+		if user is not None and user.is_superuser:
+			reservations = Reservation.objects.select_related('session__gym_class').all().order_by('-session__start_time')
+			context = {
+				'reservations': reservations,
+				'total_reservations': reservations.count(),
+				'is_authenticated': True,
+			}
+			return render(request, 'bookings/admin_dashboard.html', context)
+		else:
+			access_denied = True
+	
+	return render(request, 'bookings/admin_login.html', {'access_denied': access_denied})
 
 # List all available sessions
 from reservations.models import Session, Reservation

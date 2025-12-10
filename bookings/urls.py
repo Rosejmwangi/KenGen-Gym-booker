@@ -5,6 +5,7 @@ from django.contrib.auth import views as auth_views
 urlpatterns = [
     path('', views.members_home, name='homepage'),
     path('public/', views.homepage, name='booking_homepage'),
+    path('admin-dashboard/', views.admin_dashboard, name='admin_dashboard'),
     path('calendar/', views.calendar_view, name='calendar'),
     path('sessions/', views.session_list, name='session_list'),
     path('sessions/by-date/', views.sessions_by_date, name='sessions_by_date'),

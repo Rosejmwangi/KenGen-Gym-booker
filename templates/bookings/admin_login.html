@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+    .admin-login-container {
+        max-width: 400px;
+        margin: 80px auto;
+        padding: 40px;
+        background: linear-gradient(135deg, #662d91 0%, #f37021 100%);
+        border-radius: 14px;
+        box-shadow: 0 10px 30px rgba(102,45,145,0.2);
+        text-align: center;
+    }
+    .admin-login-container h1 {
+        color: #fff;
+        margin: 0 0 10px 0;
+        font-family: 'Montserrat', sans-serif;
+    }
+    .admin-login-container p {
+        color: rgba(255,255,255,0.9);
+        margin: 0 0 30px 0;
+        font-size: 0.95rem;
+    }
+    .form-group {
+        margin-bottom: 15px;
+        text-align: left;
+    }
+    .form-group label {
+        display: block;
+        color: #fff;
+        margin-bottom: 5px;
+        font-weight: bold;
+    }
+    .form-group input {
+        width: 100%;
+        padding: 12px;
+        border: none;
+        border-radius: 6px;
+        font-size: 1rem;
+        box-sizing: border-box;
+    }
+    .form-group input:focus {
+        outline: 2px solid #fff;
+        outline-offset: 2px;
+    }
+    .btn-submit {
+        width: 100%;
+        padding: 12px;
+        background-color: #fff;
+        color: #f37021;
+        border: none;
+        border-radius: 6px;
+        font-weight: bold;
+        font-size: 1rem;
+        cursor: pointer;
+        margin-top: 10px;
+    }
+    .btn-submit:hover {
+        background-color: #f0f0f0;
+        transform: translateY(-2px);
+    }
+    .back-link {
+        color: rgba(255,255,255,0.9);
+        text-decoration: none;
+        margin-top: 20px;
+        display: block;
+        font-size: 0.9rem;
+    }
+    .back-link:hover {
+        text-decoration: underline;
+    }
+    .error-message {
+        background-color: rgba(255,107,107,0.3);
+        color: #fff;
+        padding: 15px;
+        border-radius: 6px;
+        margin-bottom: 20px;
+        border: 1px solid rgba(255,107,107,0.5);
+    }
+</style>
+
+<div class="admin-login-container">
+    <h1>Admin Access</h1>
+    <p>Enter your admin credentials to access the dashboard</p>
+    
+    {% if access_denied %}
+        <div class="error-message">
+            ❌ Access Denied. Invalid credentials or you are not an admin.
+        </div>
+    {% endif %}
+    
+    <form method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" required>
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required>
+        </div>
+        <button type="submit" class="btn-submit">Login</button>
+    </form>
+    
+    <a href="/" class="back-link">← Back to Home</a>
+</div>
+
+{% endblock %}
